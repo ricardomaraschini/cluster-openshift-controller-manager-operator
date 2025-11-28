@@ -20,3 +20,14 @@ For more information about how to build, deploy, test, update, and develop OpenS
 
 This section explains how to deploy OpenShift with your test openshift-controller-manager image:        
 [Testing a ClusterOperator/Operand image in a cluster](https://github.com/openshift/enhancements/blob/master/dev-guide/operators.md#how-can-i-test-changes-to-an-openshift-operatoroperandrelease-component)
+
+## Rebase
+Follow this checklist and copy into the PR:
+
+- [ ] Select the desired [kubernetes release branch](https://github.com/kubernetes/kubernetes/branches), and use its `go.mod` and `CHANGELOG` as references for the rest of the work.
+- [ ] Bump go version, all `k8s.io/`, `github.com/openshift/`, and any other relevant dependencies as needed.
+- [ ] Run `go mod vendor && go mod tidy`, commit that separately from all other changes.
+- [ ] Bump image versions (Dockerfile, ci...) if needed.
+- [ ] Run `make build verify test`.
+- [ ] Make code changes as needed until the above pass.
+- [ ] Any other minor update, like documentation.

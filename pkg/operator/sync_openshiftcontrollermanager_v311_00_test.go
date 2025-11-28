@@ -5,16 +5,16 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
-	"github.com/google/go-cmp/cmp"
 	"os"
 	"reflect"
 	"sort"
 	"strconv"
 	"testing"
 
+	"github.com/google/go-cmp/cmp"
+
 	"k8s.io/apimachinery/pkg/api/equality"
 	"k8s.io/apimachinery/pkg/runtime/serializer"
-	"k8s.io/apimachinery/pkg/util/diff"
 
 	workloadcontroller "github.com/openshift/library-go/pkg/operator/apiserver/controller/workload"
 	"github.com/openshift/library-go/pkg/operator/resource/resourceread"
@@ -119,7 +119,7 @@ func TestExpectedConfigMap(t *testing.T) {
 		t.Fatalf("unable to generate ConfigMap")
 	}
 	if err == nil && !equality.Semantic.DeepEqual(config, expectedConfig) {
-		t.Errorf("Results are not deep equal. mismatch (-want +got):\n%s", diff.ObjectDiff(config, expectedConfig))
+		t.Errorf("Results are not deep equal. mismatch (-want +got):\n%s", cmp.Diff(config, expectedConfig))
 	}
 }
 
