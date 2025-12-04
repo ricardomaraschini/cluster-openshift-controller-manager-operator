@@ -14,11 +14,11 @@ can be viewed in a cluster with:
 $ oc get crd openshiftcontrollermanagers.operator.openshift.io -o yaml
 ```
 
-Many OpenShift ClusterOperators share common build, test, deployment, and update methods.
-For more information about how to build, deploy, test, update, and develop OpenShift ClusterOperators, see
+Many OpenShift ClusterOperators share common build, test, deployment, and update methods.    
+For more information about how to build, deploy, test, update, and develop OpenShift ClusterOperators, see      
 [OpenShift ClusterOperator and Operand Developer Document](https://github.com/openshift/enhancements/blob/master/dev-guide/operators.md#how-do-i-buildupdateverifyrun-unit-tests)
 
-This section explains how to deploy OpenShift with your test openshift-controller-manager image:
+This section explains how to deploy OpenShift with your test openshift-controller-manager image:        
 [Testing a ClusterOperator/Operand image in a cluster](https://github.com/openshift/enhancements/blob/master/dev-guide/operators.md#how-can-i-test-changes-to-an-openshift-operatoroperandrelease-component)
 
 ## Rebase
@@ -36,23 +36,29 @@ Follow this checklist and copy into the PR:
 
 This repository is compatible with the "OpenShift Tests Extension (OTE)" framework.
 
-### Building the test extension binary
-
+### Building the test binary
 ```bash
-make tests-ext-build
+make build
 ```
 
-### Running test suites
-
+### Running test suites and tests
 ```bash
-./cluster-openshift-controller-manager-operator-tests-ext run --suite <suite-name>
+# Run a specific test suite or test
+./cluster-openshift-controller-manager-operator-tests-ext run-suite openshift/openshift-controller-manager-operator/all
+./cluster-openshift-controller-manager-operator-tests-ext run-test "test-name"
+
+# Run with JUnit output
+./cluster-openshift-controller-manager-operator-tests-ext run-suite openshift/openshift-controller-manager-operator/all --junit-path=/tmp/junit-results/junit.xml
+./cluster-openshift-controller-manager-operator-tests-ext run-test "test-name" --junit-path=/tmp/junit-results/junit.xml
 ```
 
 ### Listing available tests and suites
-
 ```bash
-./cluster-openshift-controller-manager-operator-tests-ext list tests
-./cluster-openshift-controller-manager-operator-tests-ext list suites
+# List all test suites
+./cluster-openshift-controller-manager-operator-tests-ext list-suites
+
+# List tests in a specific suite
+./cluster-openshift-controller-manager-operator-tests-ext list-tests openshift/openshift-controller-manager-operator/all
 ```
 
-The test extension binary is included in the production image for integration with CI/CD pipelines.
+The test extension binary is included in the production image for CI/CD integration.
